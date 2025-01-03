@@ -1,4 +1,5 @@
 ﻿using ChessCore.Enumerations;
+using ChessCore.Exceptions;
 using ChessCore.Pieces;
 
 namespace ChessCore
@@ -57,6 +58,11 @@ namespace ChessCore
 
         public Piece GetPieceAt(IPosition position)
         {
+            if (position == null)
+            {
+                throw new ArgumentNullException("The provided position is null.", nameof(position));
+            }
+
             var flattenedArray = ChessPieces.Cast<Piece>();
 
             return flattenedArray
@@ -66,9 +72,24 @@ namespace ChessCore
 
         public void UpdatePiecePosition(IPosition positionFrom, IPosition positionTo)
         {
+            if (positionFrom == null)
+            {
+                throw new ArgumentNullException("The provided position is null.", nameof(positionFrom));
+            }
+
+            if (positionTo == null)
+            {
+                throw new ArgumentNullException("The provided position is null.", nameof(positionTo));
+            }
+
             Piece piece = GetPieceAt(positionFrom);
 
-            if (piece != null && piece.IsValidMove(positionTo, this))
+            if (piece == null)
+            {
+                throw new PieceNotFoundException("No piece found at the starting position.", positionFrom);
+            }
+
+            if (piece.IsValidMove(positionTo, this))
             {
                 piece.Position = positionTo;
 
