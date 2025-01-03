@@ -11,7 +11,7 @@ namespace ChessCore.Pieces
         }
 
         public IPosition Position { get; set; }
-        PieceColor Color { get; set; }
+        public PieceColor Color { get; set; }
 
         public abstract bool IsValidMove(IPosition newPosition, IBoard board);
     }
